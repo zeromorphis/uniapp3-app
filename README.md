@@ -1,3 +1,11 @@
+<!--
+ * @Author: YT
+ * @Date: 2025-05-15 16:12:48
+ * @LastEditors: YT
+ * @LastEditTime: 2025-05-16 09:56:51
+ * @Description: 当时只道是寻常
+ * @FilePath: \start\uniapp3-app\README.md
+-->
  # Uniapp3-App
 
 ### 简介 📖
@@ -49,7 +57,7 @@ yarn install 或 npm install
 ### 文件资源目录 📚
 
 ```text
-uniapp3-app/
+uniapp3-app
 ├─ api                        # 接口请求封装
 ├─ locale                     # 多语言配置文件
 ├─ pages                      # 页面目录（页面组件）
