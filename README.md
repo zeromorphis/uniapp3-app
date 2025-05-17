@@ -98,5 +98,3 @@ uniapp3-app
   &nbsp
   <img src="https://github-readme-stats.vercel.app/api/top-langs?locale=en&hide_title=false&layout=compact&card_width=350&langs_count=5&theme=dracula&hide_border=false&username=zeromorphis" height="160" alt="languages graph"  />
 </div>
-
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true&theme=radical)
