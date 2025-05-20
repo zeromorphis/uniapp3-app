@@ -15,6 +15,12 @@
 			<up-button @click="gotoSocketFun()" type="primary" text="socket"></up-button>
 		</view>
 		<view class="exhibition-board">
+			<up-button @click="throttleFun()" type="primary" text="throttle节流"></up-button>
+		</view>
+		<view class="exhibition-board">
+			<up-button @click="debounceFun()" type="primary" text="debounce防抖"></up-button>
+		</view>
+		<view class="exhibition-board">
 			<up-button @click="loginFun()" type="primary" text="登录"></up-button>
 		</view>
 		<view v-if="isLoginWallet" class="exhibition-board">
@@ -53,7 +59,7 @@
 	import { useUserStoreWithOut } from '@/store/modules/user';
 	import { interceptStr, interceptDecimal } from '@/utils/tools';
 	import { useI18n } from 'vue-i18n';
-	import { throttle } from 'uview-plus';
+	import { throttle, debounce } from 'uview-plus';
 	import { loginApi } from "@/api/user";
 	import sdk from "@/sdk/chainweb3";
 
@@ -70,6 +76,20 @@
 		});
 	};
 
+	// 节流，规定时间内，只触发一次，如果immediate为true，那么就会在第一次操作 触发回调，如果为false，就会在第5次操作触发回调。
+	const throttleFun = () => {
+		throttle(() => {
+			console.log('节流');
+		}, 2000, true)
+	};
+
+	// 防抖，在连续的操作中，无论进行了多长时间，只有某一次的操作后在指定的时间内没有再操作，这一次才被判定有效
+	const debounceFun = () => {
+		debounce(() => {
+			console.log('防抖');
+		}, 2000, false)
+	};
+
 	const loginFun = () => {
 		const data = {
 			username: 'YTZ',
@@ -83,9 +103,9 @@
 	};
 
 	// 钱包连接操作
-	const connectWalletFun = throttle(async () => {
+	const connectWalletFun = async () => {
 		await sdk.chainWeb3.connectWallet();
-	}, 500)
+	}
 
 	// 钱包断开操作
 	const disConnectWalletFun = async () => {
