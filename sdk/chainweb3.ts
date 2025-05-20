@@ -89,7 +89,7 @@ class ChainWeb3 {
       await (window.ethereum as any).on("chainChanged",async (chainId: any) => {
           if (chainId != toBeHex(TARGET_CHAIN_ID)) {
             console.warn("不是这个网络-清除登录信息并退出");
-            userStore.connectNoMetamask(chainId);
+			chainWeb3.disconnectWallet();
           } else {
             console.info("是这个网络-建立连接并重载数据");
           }
@@ -97,7 +97,7 @@ class ChainWeb3 {
       );
       await (window.ethereum as any).on("accountsChanged",async (accounts: string) => {
           console.warn("账户切换...");
-          userStore.disconnectWallet();
+          chainWeb3.disconnectWallet();
           console.log(accounts); //一旦切换账号这里就会执行
         }
       );

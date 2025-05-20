@@ -3,7 +3,7 @@
 		<view class="navbar">
 			<view class="navbar-wrap">
 				<view class="left">
-					<image src="@/static/image/home/LOGO.png" mode="widthFix"></image>
+					<image src="@/static/image/home/logo.png" mode="heightFix"></image>
 				</view>
 				<view class="right" @click="onLocaleChange()">
 					<text class="text">{{t('home.language')}}</text>
@@ -62,6 +62,8 @@
 	import { throttle, debounce } from 'uview-plus';
 	import { loginApi } from "@/api/user";
 	import sdk from "@/sdk/chainweb3";
+	
+	sdk.chainWeb3.networkListening();
 
 	const { t, locale } = useI18n();
 	const userStore = useUserStoreWithOut();
@@ -161,7 +163,7 @@
 					align-items: center;
 
 					image {
-						width: 238rpx;
+						height: 60rpx;
 					}
 				}
 
