@@ -14,6 +14,12 @@
 			"style": {
 				"navigationStyle": "custom" // 关闭原生导航栏
 			}
+		},
+		{
+			"path": "pages/socket/index",
+			"style": {
+				"navigationStyle": "custom" // 关闭原生导航栏
+			}
 		}
 	],
 	"globalStyle": {

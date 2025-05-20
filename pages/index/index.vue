@@ -12,6 +12,9 @@
 			</view>
 		</view>
 		<view class="exhibition-board">
+			<up-button @click="gotoSocketFun()" type="primary" text="socket"></up-button>
+		</view>
+		<view class="exhibition-board">
 			<up-button @click="loginFun()" type="primary" text="登录"></up-button>
 		</view>
 		<view v-if="isLoginWallet" class="exhibition-board">
@@ -61,6 +64,12 @@
 			const isLoginWallet = computed<boolean>(() => useUserStore.hasAddress);
 			const address = computed<string | undefined>(() => useUserStore.address);
 			const balance = computed<number | undefined>(() => useUserStore.balance);
+			
+			const gotoSocketFun = () => {
+				uni.navigateTo({
+					url: '/pages/socket/index'
+				});
+			};
 
 			const loginFun = () => {
 				const data = {
@@ -122,6 +131,7 @@
 				balance,
 				interceptStr,
 				interceptDecimal,
+				gotoSocketFun,
 				loginFun,
 				connectWalletFun,
 				disConnectWalletFun,
