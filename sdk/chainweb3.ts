@@ -4,7 +4,7 @@
  * @Descripttion: 人人都说顶峰相见，路边的水沟人满为患
  * @Date: 2023-10-21 23:48:43
  * @LastEditors: YT
- * @LastEditTime: 2025-05-14 20:04:44
+ * @LastEditTime: 2025-05-20 10:01:42
  */
 import { ethers, Contract, formatUnits, parseUnits, toBeHex } from "ethers";
 
@@ -78,7 +78,7 @@ class ChainWeb3 {
 
   handleNewAccounts(newAccounts: any) {
     console.log("handleNewAccounts:", newAccounts);
-	userStore.SET_ADDRESS(newAccounts[0]);
+    userStore.SET_ADDRESS(newAccounts[0]);
   }
 
   // 监听网络和账户变化
@@ -89,7 +89,7 @@ class ChainWeb3 {
       await (window.ethereum as any).on("chainChanged",async (chainId: any) => {
           if (chainId != toBeHex(TARGET_CHAIN_ID)) {
             console.warn("不是这个网络-清除登录信息并退出");
-			userStore.disconnectWallet();
+            userStore.connectNoMetamask(chainId);
           } else {
             console.info("是这个网络-建立连接并重载数据");
           }
@@ -97,7 +97,7 @@ class ChainWeb3 {
       );
       await (window.ethereum as any).on("accountsChanged",async (accounts: string) => {
           console.warn("账户切换...");
-		  userStore.disconnectWallet();
+          userStore.disconnectWallet();
           console.log(accounts); //一旦切换账号这里就会执行
         }
       );
@@ -114,8 +114,8 @@ class ChainWeb3 {
           method: "eth_chainId",
         });
 
-        console.log('钱包选择链：', currentChainId)
-        console.log('目标选择链：', toBeHex(TARGET_CHAIN_ID))
+        console.log("钱包选择链：", currentChainId);
+        console.log("目标选择链：", toBeHex(TARGET_CHAIN_ID));
 
         // 如果当前链不是目标链，则尝试切换
         if (currentChainId !== toBeHex(TARGET_CHAIN_ID)) {
@@ -170,8 +170,8 @@ class ChainWeb3 {
 
         console.log(`%cblockNumber%c${await this.getBlockNumber()}`,"background: #00cc00; color: #fff; border-radius: 3px 0 0 3px;padding:2px 5px","background: #1475B2; color: #fff; border-radius: 0 3px 3px 0;padding:2px 5px");
 
-		userStore.SET_ADDRESS(this.getAccount());
-		userStore.SET_BALANCE(await this.getBalance());
+        userStore.SET_ADDRESS(this.getAccount());
+        userStore.SET_BALANCE(await this.getBalance());
 
         return Promise.resolve(this.getAccount());
       } catch (connectError) {
@@ -193,7 +193,7 @@ class ChainWeb3 {
     this.ethereum = null;
     this.provider = null;
     this.signer = null;
-	userStore.disconnectWallet();
+    userStore.disconnectWallet();
   }
 
   getAccount() {
