@@ -7,13 +7,13 @@
 </template>
 
 <script lang="ts" setup>
-	import { ref, onMounted, onBeforeUnmount } from 'vue'
-	import { onLoad, onShow, onHide, onUnload, onPullDownRefresh } from "@dcloudio/uni-app";
+	import { ref } from 'vue'
+	import { onLoad, onUnload } from "@dcloudio/uni-app";
 	import { useSocketStoreWithOut } from '@/store/modules/socket'
 
 	const socketStore = useSocketStoreWithOut()
 
-	const isConnected = ref(false)
+	const isConnected = ref(false);//WebSocket连接状态
 	const message = ref('暂无消息')
 
 	// 监听 WebSocket 事件

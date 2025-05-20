@@ -46,7 +46,7 @@
 	</view>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 	import { ref, reactive, computed, watch, toRefs, onBeforeMount, onMounted } from 'vue';
 	import { onLoad, onShow, onHide, onPullDownRefresh } from "@dcloudio/uni-app";
 	import { useAppStoreWithOut } from '@/store/modules/app';
@@ -56,88 +56,64 @@
 	import { throttle } from 'uview-plus';
 	import { loginApi } from "@/api/user";
 	import sdk from "@/sdk/chainweb3";
-	export default {
-		setup() {
-			const { t, locale } = useI18n();
-			const userStore = useUserStoreWithOut();
-			const appStore = useAppStoreWithOut();
-			const isLoginWallet = computed<boolean>(() => userStore.hasAddress);
-			const address = computed<string | undefined>(() => userStore.address);
-			const balance = computed<number | undefined>(() => userStore.balance);
-			
-			const gotoSocketFun = () => {
-				uni.navigateTo({
-					url: '/pages/socket/index'
-				});
-			};
 
-			const loginFun = () => {
-				const data = {
-					username: 'YTZ',
-					password: '123456'
-				};
-				loginApi(data).then((res : any) => {
-					console.log(res);
-				}).catch((err : any) => {
-					console.error(err);
-				});
-			};
+	const { t, locale } = useI18n();
+	const userStore = useUserStoreWithOut();
+	const appStore = useAppStoreWithOut();
+	const isLoginWallet = computed<boolean>(() => userStore.hasAddress);
+	const address = computed<string | undefined>(() => userStore.address);
+	const balance = computed<number | undefined>(() => userStore.balance);
 
-			// 钱包连接操作
-			const connectWalletFun = async () => {
-				await sdk.chainWeb3.connectWallet();
-			};
+	const gotoSocketFun = () => {
+		uni.navigateTo({
+			url: '/pages/socket/index'
+		});
+	};
 
-			// 钱包断开操作
-			const disConnectWalletFun = async () => {
-				await sdk.chainWeb3.disconnectWallet();
-			};
+	const loginFun = () => {
+		const data = {
+			username: 'YTZ',
+			password: '123456'
+		};
+		loginApi(data).then((res : any) => {
+			console.log(res);
+		}).catch((err : any) => {
+			console.error(err);
+		});
+	};
 
-			// 多语言切换
-			const onLocaleChange = async () => {
-				if (appStore.language == 'en') {
-					appStore.SET_LANGUAGE('zh');
-					locale.value = 'zh';
-					return
-				}
-				if (appStore.language == 'zh') {
-					appStore.SET_LANGUAGE('en');
-					locale.value = 'en';
-					return
-				}
-			};
+	// 钱包连接操作
+	const connectWalletFun = throttle(async () => {
+		await sdk.chainWeb3.connectWallet();
+	}, 500)
 
-			// 监听是否连接了钱包，连接就初始化合约信息
-			watch(() => userStore.hasAddress, async (newValue : any) => {
-				console.log('APP-钱包是否连接：', newValue ? '是' : "否")
-			}, { immediate: false, deep: false });
+	// 钱包断开操作
+	const disConnectWalletFun = async () => {
+		await sdk.chainWeb3.disconnectWallet();
+	};
 
-
-			// 监听是否连接了钱包，连接就初始化合约信息
-			watch(() => userStore.address, async (newValue : any) => {
-				console.log('APP-钱包地址变化：', newValue)
-			}, { immediate: false, deep: false });
-
-
-			onPullDownRefresh(() => {
-				// // 处理刷新逻辑，例如重新获取数据
-			});
-
-			return {
-				t,
-				onLocaleChange,
-				isLoginWallet,
-				address,
-				balance,
-				interceptStr,
-				interceptDecimal,
-				gotoSocketFun,
-				loginFun,
-				connectWalletFun,
-				disConnectWalletFun,
-			}
+	// 多语言切换
+	const onLocaleChange = async () => {
+		if (appStore.language == 'en') {
+			appStore.SET_LANGUAGE('zh');
+			locale.value = 'zh';
+			return
+		}
+		if (appStore.language == 'zh') {
+			appStore.SET_LANGUAGE('en');
+			locale.value = 'en';
+			return
 		}
 	};
+
+	// 监听是否连接了钱包，连接就初始化合约信息
+	watch(() => userStore.hasAddress, async (newValue : any) => {
+		console.log('APP-钱包是否连接：', newValue ? '是' : "否")
+	}, { immediate: false, deep: false });
+
+	onPullDownRefresh(() => {
+		// // 处理刷新逻辑，例如重新获取数据
+	});
 </script>
 
 <style lang="scss">
