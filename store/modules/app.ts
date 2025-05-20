@@ -11,22 +11,23 @@ import { store } from "@/store";
 import { setStorage } from "@/utils/storage";
 
 interface AppState {
-  language: string | undefined;
+	language : string | undefined;
 }
 
-export const useAppStore = defineStore({
-  id: "app",
-  state: (): AppState => ({
-    language: 'en',
-  }),
-  actions: {
-    SET_LANGUAGE(language: string) {
-      this.language = language || undefined;
-      setStorage("language", language);
-    },
-  },
+export const useAppStore = defineStore("app", {
+	state: () : AppState => {
+		return { 
+			language: 'en',
+		}
+	},
+	actions: {
+		SET_LANGUAGE(language : string) {
+			this.language = language || undefined;
+			setStorage("language", language);
+		},
+	},
 });
 
 export function useAppStoreWithOut() {
-  return useAppStore(store);
+	return useAppStore(store);
 }

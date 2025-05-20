@@ -15,8 +15,7 @@ interface UserState {
 	balance : number | undefined; //当前钱包连接地址
 }
 
-export const useUserStore = defineStore({
-	id: "user",
+export const useUserStore = defineStore("user", {
 	state: () : UserState => ({
 		address: getStorageSync("address") || undefined,
 		balance: getStorageSync("balance") || undefined,

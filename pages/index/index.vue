@@ -59,11 +59,11 @@
 	export default {
 		setup() {
 			const { t, locale } = useI18n();
-			const useUserStore = useUserStoreWithOut();
-			const useAppStore = useAppStoreWithOut();
-			const isLoginWallet = computed<boolean>(() => useUserStore.hasAddress);
-			const address = computed<string | undefined>(() => useUserStore.address);
-			const balance = computed<number | undefined>(() => useUserStore.balance);
+			const userStore = useUserStoreWithOut();
+			const appStore = useAppStoreWithOut();
+			const isLoginWallet = computed<boolean>(() => userStore.hasAddress);
+			const address = computed<string | undefined>(() => userStore.address);
+			const balance = computed<number | undefined>(() => userStore.balance);
 			
 			const gotoSocketFun = () => {
 				uni.navigateTo({
@@ -95,26 +95,26 @@
 
 			// 多语言切换
 			const onLocaleChange = async () => {
-				if (useAppStore.language == 'en') {
-					useAppStore.SET_LANGUAGE('zh');
+				if (appStore.language == 'en') {
+					appStore.SET_LANGUAGE('zh');
 					locale.value = 'zh';
 					return
 				}
-				if (useAppStore.language == 'zh') {
-					useAppStore.SET_LANGUAGE('en');
+				if (appStore.language == 'zh') {
+					appStore.SET_LANGUAGE('en');
 					locale.value = 'en';
 					return
 				}
 			};
 
 			// 监听是否连接了钱包，连接就初始化合约信息
-			watch(() => useUserStore.hasAddress, async (newValue : any) => {
+			watch(() => userStore.hasAddress, async (newValue : any) => {
 				console.log('APP-钱包是否连接：', newValue ? '是' : "否")
 			}, { immediate: false, deep: false });
 
 
 			// 监听是否连接了钱包，连接就初始化合约信息
-			watch(() => useUserStore.address, async (newValue : any) => {
+			watch(() => userStore.address, async (newValue : any) => {
 				console.log('APP-钱包地址变化：', newValue)
 			}, { immediate: false, deep: false });
 
