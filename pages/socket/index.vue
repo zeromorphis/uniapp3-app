@@ -17,13 +17,14 @@
 </template>
 
 <script lang="ts" setup>
-	import { ref, reactive } from 'vue'
+	import { ref, reactive, computed } from 'vue'
 	import { onLoad, onUnload } from "@dcloudio/uni-app";
 	import { useSocketStoreWithOut } from '@/store/modules/socket'
 
 	const socketStore = useSocketStoreWithOut()
 
-	const isConnected = ref(false);//WebSocket连接状态
+	const isConnected = computed(() => socketStore.isConnected);//WebSocket连接状态
+
 	const msgData = reactive({
 		message:'暂无消息',
 		message1:'暂无消息',
@@ -34,15 +35,12 @@
 	function setupSocketListeners() {
 		socketStore.on('open', () => {
 			console.log('✅ WebSocket 连接成功')
-			isConnected.value = true
 		})
 		socketStore.on('close', () => {
 			console.warn('⚠️ WebSocket 连接关闭')
-			isConnected.value = false
 		})
 		socketStore.on('error', (err) => {
 			console.error('❌ WebSocket 连接错误', err)
-			isConnected.value = false
 		})
 		socketStore.on('message', (data) => {
 			console.log('📩 收到消息:', data)
